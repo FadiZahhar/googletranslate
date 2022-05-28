@@ -1,9 +1,11 @@
 import logo from './logo.svg';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import {useState,useEffect} from 'react';
 import axios from 'axios';
 import { bounce } from 'react-animations';
 import Radium, {StyleRoot} from 'radium';
+import { toast, ToastContainer } from 'react-toastify';
 
 function App() {
   const[options,setOptions]=useState([])
@@ -176,11 +178,10 @@ function App() {
   }
   const translate=()=>{
 
- 
-   //console.log('1',input);
-   //console.log('2',from);
-   //console.log('3',love.length)
-   // get random index value
+    
+   if(input){
+
+   
    const randomIndex = Math.floor(Math.random() * love.length);
    console.log('inputs',input);
    console.log('random',randomIndex);
@@ -195,8 +196,10 @@ function App() {
       axioscall(input,from,to,1);
       axioscall(input,from,to,2);
     }
-    
-
+  }
+  else {
+    toast.error('You need to type a word to translate ');
+  } 
     
   
 
@@ -213,8 +216,17 @@ function App() {
     console.log(input);
   },[input])
   return (
-    
-    <div className="App">
+    <>
+      <ToastContainer position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover />
+      <div class="App">
       <div className="container">
   <div className="row">
     <div className="col">
@@ -244,7 +256,7 @@ function App() {
     <div className="row">
     <div className="col-sm-12 col-md-12 col-lg-6">
       <StyleRoot>
-      <textarea style={styles.bounce}   cols='50' rows='8' onChange={(e)=>setInput(e.target.value.toLowerCase())} ></textarea>
+      <textarea style={styles.bounce}   cols='50' rows='8' onChange={(e)=>setInput(e.target.value.toLowerCase())} placeholder='type a word to translate'></textarea>
       </StyleRoot>
       </div>
       <div className="col-sm-12 col-md-12 col-lg-6">
@@ -269,10 +281,10 @@ function App() {
           </div>
         </div>
       </div>
-      
+      </div>
 
 
-    </div>
+    </>
   );
 }
 
